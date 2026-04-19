@@ -1,0 +1,30 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      routes:
+      - id : after_route
+        uri: lb://document-service
+        predicates:  
+        - Path=/documents/**
+      - id : user-service
+        uri: lb://user-service
+        predicates:  
+        - Path=/v1/api/**
+      - id : user-service
+        uri: lb://employee-management-service
+        predicates: 
+        - Path=/management/**
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+     defaultZone: http://localhost:9099/eureka
+      
